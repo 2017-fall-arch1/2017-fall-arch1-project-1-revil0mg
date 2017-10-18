@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include "bTree.h"
 
+/* Creates binary tree from file */
 node *bTreeFromFile(char *filename) {
   node *BST = NULL;
   char buff[50];
@@ -28,6 +29,24 @@ node *bTreeFromFile(char *filename) {
   fclose(fp);
   return BST;
 }
+
+/* Saves the names in order */
+void saveTree(node *root, FILE *fp) {
+  if (root != NULL) {
+    saveTree(root->left, fp);
+    fprintf(fp, "%s\n", root->data);
+    saveTree(root->right, fp);
+  }
+}
+
+/* Saves the names in the binary tree into file */
+void saveDirectory(node *root, char *filename){
+  FILE *fp;
+  fp = fopen(filename, "+ab");
+  
+  saveTree(root, fp);
+}
+
 
 int main() {
   printf( "Welcome to the Personnel Management System.\n" );
@@ -86,8 +105,7 @@ int main() {
       printf("3 - Save directory to file\n");
       printf("4 - Exit program\n");
 
-      /* Check input */
-
+      /* Complete task based on given input */
       if (strcmp(input, "1") == 0) {
 	printf("Add Name: ");
 	scanf("%s", temp);
@@ -106,6 +124,7 @@ int main() {
 	printf("Saving file...\n");
 	scanf("%s", temp);
 	saveDirectory(directory, temp);
+	printf("Saved!\n");
       }
       else if (strcmp(input, "4") == 0) {
 	printf("Thank you for using the ACME Personnel Mangement System.");
