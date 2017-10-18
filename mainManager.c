@@ -59,6 +59,7 @@ int main() {
       printf("\n Grabbing names from file \n");
       directory = bTreeFromFile("names.txt");
       bTreePrint(directory);
+      goto Edit_Tree;
     }
 
     /* If user selects option 2*/
@@ -73,7 +74,46 @@ int main() {
     else
       printf("INVALID INPUT!\n");
   }
+
   
+  Edit_Tree:;
+    char temp[50];
+
+    while(1){
+      printf("What would you like to do?\n");
+      printf("1 - Add Name\n");
+      printf("2 - Remove Name\n");
+      printf("3 - Save directory to file\n");
+      printf("4 - Exit program\n");
+
+      /* Check input */
+
+      if (strcmp(input, "1") == 0) {
+	printf("Add Name: ");
+	scanf("%s", temp);
+	directory = bTreeInsert(directory, temp);
+	printf("/n");
+	bTreePrint(directory);
+      }
+      else if (strcmp(input, "2") == 0) {
+	printf("Remove Name: ");
+	scanf("%s", temp);
+	directory = bTreeDelete(directory, temp);
+	printf("/n");
+	bTreePrint(directory);
+      }
+      else if (strcmp(input, "3") == 0) {
+	printf("Saving file...\n");
+	scanf("%s", temp);
+	saveDirectory(directory, temp);
+      }
+      else if (strcmp(input, "4") == 0) {
+	printf("Thank you for using the ACME Personnel Mangement System.");
+	exit(1);
+      }
+      else
+	printf("Invalid Input\n");
+    }
   
   return 0;
 }
