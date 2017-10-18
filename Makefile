@@ -8,3 +8,5 @@ OBJ = mainManager.o bTree.o
 
 mainManager: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
+clean: $(OBJ)
+	rm -f *.o mainManager
