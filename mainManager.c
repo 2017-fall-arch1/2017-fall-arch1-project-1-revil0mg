@@ -19,7 +19,7 @@ node *bTreeFromFile(char *filename) {
   while(!feof(fp)) {
     fscanf(fp, buff);
     if (strcmp(buff, "") > 0) {
-      BST = insert(BST, buff);
+      BST = bTreeInsert(BST, buff);
       ++total;
     }
     strcpy(buff, "");
@@ -58,9 +58,10 @@ int main() {
     if (selection == 1) {
       printf("\n Grabbing names from file \n");
       directory = bTreeFromFile("names.txt");
+      bTreePrint(directory);
     }
 
-    /* If user selects option 2 IF STATEMENT*/
+    /* If user selects option 2*/
     else if (selection == 2) {
       printf("SELECTED OPTION 2\n");
     }
