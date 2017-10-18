@@ -25,7 +25,7 @@ node *bTreeFromFile(char *filename) {
     }
     strcpy(buff, "");
   }
-  printf("Finished inserting %d names into the directory", total);
+  printf("Finished inserting %d names into the directory \n", total);
   fclose(fp);
   return BST;
 }
@@ -75,15 +75,15 @@ int main() {
 
     /* If user selects option 1 */
     if (selection == 1) {
-      printf("\n Grabbing names from file \n");
+      printf("\n Grabbing names from file... \n \n");
       directory = bTreeFromFile("names.txt");
-      bTreePrint(directory);
+      bTreePrint(directory); //ERROR
       goto Edit_Tree;
     }
 
     /* If user selects option 2*/
     else if (selection == 2) {
-      printf("SELECTED OPTION 2\n");
+      goto Edit_Tree;
     }
     
     /* Retry if input was invalid */
@@ -100,7 +100,7 @@ int main() {
       printf("1 - Add Name\n");
       printf("2 - Remove Name\n");
       printf("3 - Save directory to file\n");
-      printf("4 - Exit program\n");
+      printf("9 - Exit program\n");
 
       /* Complete task based on given input */
       if (strcmp(input, "1") == 0) {
@@ -123,7 +123,7 @@ int main() {
 	saveDirectory(directory, temp);
 	printf("Saved!\n");
       }
-      else if (strcmp(input, "4") == 0) {
+      else if (strcmp(input, "9") == 0) {
 	printf("Thank you for using the ACME Personnel Mangement System.");
 	exit(1);
       }

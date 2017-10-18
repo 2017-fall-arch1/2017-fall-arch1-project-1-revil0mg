@@ -4,24 +4,24 @@
 #include <string.h> /* to use strcpy*/
 #include <stddef.h> /* to use NULL*/
 #include <bTree.h>
-/* This bTree.c was taken from my previous project a year ago*/
+/* This bTree.c was taken from my previous project a year ago and modified*/
 
 struct node *root;
 
 node *bTreeInsert(struct node *temp, char *n) {
   if (temp == NULL){
-    temp = malloc(sizeof(root));
+    temp = (node *)malloc(sizeof(root));
     strcpy(temp->data, n);
     temp->left = NULL;
     temp->right = NULL;
-    root = temp;
   }
   else {
-    if(strcmp(n, temp->data) < 0)
-      bTreeInsert(temp->left, n);
-    else if(strcmp(n, temp->data) > 0)
-      bTreeInsert(temp->right, n);
+    if (strcmp(n, temp->data) < 0)
+      temp->left = bTreeInsert(temp->left, n);
+    else if (strcmp(n, temp->data) > 0)
+      temp->right = bTreeInsert(temp->right, n);
   }
+  return temp;
 }
 
 node *bTreeDelete(struct node *temp, char *n) {
@@ -33,7 +33,7 @@ node *bTreeDelete(struct node *temp, char *n) {
     temp->right = bTreeDelete(temp->right, n);
   else {
     if (temp->right && temp->left) {
-      printf("supposed to delete name"); 
+      printf("supposed to delete name\n"); 
     }
     else {
       if (temp->left == NULL)
@@ -42,7 +42,6 @@ node *bTreeDelete(struct node *temp, char *n) {
 	temp = temp->right;
       free(temp);
     }
-      
     
     bTreeDelete(temp->left, n);
     bTreeDelete(temp->right, n);
@@ -52,7 +51,7 @@ node *bTreeDelete(struct node *temp, char *n) {
 
 void bTreePrint(struct node *temp) {
   if (root == NULL) {
-    printf("There are no names");
+    printf("There are no names\n");
     return;
   }
 
