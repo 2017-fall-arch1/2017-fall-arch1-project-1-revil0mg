@@ -18,7 +18,7 @@ node *bTreeFromFile(char *filename) {
   }
 
   while(!feof(fp)) {
-    fscanf(fp, buff);
+    fscanf(fp, "%s", buff);
     if (strcmp(buff, "") > 0) {
       BST = bTreeInsert(BST, buff);
       ++total;
@@ -69,7 +69,7 @@ int main() {
     else if (strcmp(input, "2") == 0)
       selection = 2;
     else if (strcmp(input, "exit") == 0)
-      selection = 9;
+      exit(1);
     else
       selection = 0;
 
@@ -85,10 +85,7 @@ int main() {
     else if (selection == 2) {
       printf("SELECTED OPTION 2\n");
     }
-
-    /* Quit program */
-    else if (selection == 9)
-      exit(1);
+    
     /* Retry if input was invalid */
     else
       printf("INVALID INPUT!\n");
@@ -110,14 +107,14 @@ int main() {
 	printf("Add Name: ");
 	scanf("%s", temp);
 	directory = bTreeInsert(directory, temp);
-	printf("/n");
+	printf("\n");
 	bTreePrint(directory);
       }
       else if (strcmp(input, "2") == 0) {
 	printf("Remove Name: ");
 	scanf("%s", temp);
 	directory = bTreeDelete(directory, temp);
-	printf("/n");
+	printf("\n");
 	bTreePrint(directory);
       }
       else if (strcmp(input, "3") == 0) {
