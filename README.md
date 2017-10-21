@@ -1,17 +1,10 @@
-# arch1-linked-list-demo
+# arch1-Project1-directory manager
 
-This directory contains:
-* code that implements a linked list of strings 
-* a demo program that uses it
-
-The demo program reads lines from stdin.
-Each line is appended onto a linked list.
-After end-of-file is read, the lines are printed out.
-
-This demo contains the following files:
- llist.h: header file of llist structure & "public" interface functions
- llist.c: implementation of linked list
- listDemo.c: a demonstration program that uses the linked list
+This program contains the following files:
+ bTree.h: header file of node structure & "public" interface functions
+ bTree.c: implementation of binary tree
+ mainManager.c: a demonstration program that uses the binary tree
+ names.txt: An example file for the program.
  
 
 To compile:
@@ -19,9 +12,9 @@ To compile:
 $ make
 ~~~
 
-To test it, try:
+To Test after compiling:
 ~~~
-$ make demo
+$ ./mainManager
 ~~~
 
 To delete binaries:
@@ -29,28 +22,16 @@ To delete binaries:
 $ make clean
 ~~~
 
-# Things to figure out #
+#How to use the program#
 
-1. Examine llist.h.  It defines llist's structures and declares llist's interface.
-  - seriously, look at the comments too.
-  - notice how the #ifndef/endif at the top/botom prevents multiple inclusion
-2. Peek at llist.c to see how llist's functions are implemented.
-   Be sure to check out how llCheck, llDoCheck and doCheck interact.  
-3. Peek at llistDemo to see how llist is used.
-4. Be sure you understand how these codes use malloc() and free().
-5. Notice how the Makefile specifies
-  - dependencies
-  - the default production (the first one, which happens to be called "all")
-  - how each .o file has its own productions specifying prerequisite source & include files (why?)
-  - how the (in this case, one) program is its own production specifying prerequisite .o files     
-  - the demo production.  Notice
-    - which strings are quoted
-    - what the parentheses and pipe (|) symbol are doing
-6. Try extending llist.  Perhaps
-  - adding llGet() method to llist.c and llist.h
-     - that discards the first item and returns the string it contained
-     - writing another demo (probably starting with ours) that tests llGet().
-     - be sure to use llCheck
-     - and adding Makefile productions to compile & test it
-  - the same as above, but now add llReverse that reverses list order to llist.c
+1: When the program starts, the user will be prompted to get names from a text file, which is set as names.txt, and those names will be used for this program, or the user can proceed without importing any names.
 
+2: The user can type exit at any point in the program to quit it.
+
+3: The user will be promped to add names to the directory, delete names from the directory, export the names of the directory to a text file (not functional), and exit the program.
+
+4: If the user selects the option to add name by entering "1", the program will then ask for what name they would like to input. When the user finishes inputting the name the name is added to the directory.
+
+5: If the user selects the option to delete a name by entering "2", the program will ask for the name they would like to remove from the directory. When the user finishes inputting the name, the program will look for the name in the directory and delete it.
+
+6: If the user selects the option to save the directory to a file, the program will crash with a segmentation fault.

@@ -25,26 +25,35 @@ node *bTreeFromFile(char *filename) {
     }
     strcpy(buff, "");
   }
-  printf("Finished inserting %d names into the directory \n", total);
+  printf("Finished inserting %d names into the directory \n \n", total);
   fclose(fp);
   return BST;
 }
 
 /* Saves the names in order */
 void saveTree(node *root, FILE *fp) {
+  printf("test1");
   if (root != NULL) {
     saveTree(root->left, fp);
     fprintf(fp, "%s\n", root->data);
+    printf("test2");
     saveTree(root->right, fp);
   }
+  return;
 }
 
 /* Saves the names in the binary tree into file */
-void saveDirectory(node *root, char *filename){
+void saveDirectory(node *root){
+  printf("test1");
   FILE *fp;
-  fp = fopen(filename, "+ab");
-  
+  printf("test10");
+  fp = fopen("output.txt", "+ab");
+  printf("test45");
+  fprintf(fp, "List of names: \n");
+  printf("File Opened");
   saveTree(root, fp);
+  fclose(fp);
+  return;
 }
 
 
@@ -77,7 +86,7 @@ int main() {
     if (selection == 1) {
       printf("\n Grabbing names from file... \n \n");
       directory = bTreeFromFile("names.txt");
-      bTreePrint(directory); //ERROR
+      bTreePrint(directory);
       goto Edit_Tree;
     }
 
@@ -96,11 +105,14 @@ int main() {
     char temp[50];
 
     while(1){
-      printf("What would you like to do?\n");
+      printf("\nWhat would you like to do?\n");
       printf("1 - Add Name\n");
       printf("2 - Remove Name\n");
       printf("3 - Save directory to file\n");
-      printf("9 - Exit program\n");
+      printf("exit - Exit program\n");
+
+      printf("Input goes here: ");
+      scanf("%s", input);
 
       /* Complete task based on given input */
       if (strcmp(input, "1") == 0) {
@@ -109,6 +121,7 @@ int main() {
 	directory = bTreeInsert(directory, temp);
 	printf("\n");
 	bTreePrint(directory);
+	printf("\n");
       }
       else if (strcmp(input, "2") == 0) {
 	printf("Remove Name: ");
@@ -116,15 +129,16 @@ int main() {
 	directory = bTreeDelete(directory, temp);
 	printf("\n");
 	bTreePrint(directory);
+	printf("\n");
       }
       else if (strcmp(input, "3") == 0) {
 	printf("Saving file...\n");
-	scanf("%s", temp);
-	saveDirectory(directory, temp);
+	saveDirectory(directory);
 	printf("Saved!\n");
       }
-      else if (strcmp(input, "9") == 0) {
-	printf("Thank you for using the ACME Personnel Mangement System.");
+      else if (strcmp(input, "exit") == 0) {
+	printf("Thank you for using the ACME Personnel Mangement System. \n");
+	freeTree(directory);
 	exit(1);
       }
       else

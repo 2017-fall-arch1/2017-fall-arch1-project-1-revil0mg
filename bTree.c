@@ -6,15 +6,15 @@
 #include <bTree.h>
 /* This bTree.c was taken from my previous project a year ago and modified*/
 
-struct node *root;
-
 node *bTreeInsert(struct node *temp, char *n) {
   if (temp == NULL){
-    temp = (node *)malloc(sizeof(root));
+    node *temp = (node *)malloc(sizeof(node));
     strcpy(temp->data, n);
     temp->left = NULL;
     temp->right = NULL;
+    return temp;
   }
+  
   else {
     if (strcmp(n, temp->data) < 0)
       temp->left = bTreeInsert(temp->left, n);
@@ -25,33 +25,67 @@ node *bTreeInsert(struct node *temp, char *n) {
 }
 
 node *bTreeDelete(struct node *temp, char *n) {
-  if (temp == NULL)
-    printf("Name not found\n");
-  else if (strcmp(n, temp->data) < 0)
-    temp->left = bTreeDelete(temp->left, n);
-  else if (strcmp(n, temp->data) > 0)
-    temp->right = bTreeDelete(temp->right, n);
-  else {
-    if (temp->right && temp->left) {
-      printf("supposed to delete name\n"); 
+  node *parent = NULL;
+  node *current = temp;
+
+  while (current != NULL) {
+    if (strcmp(n, current->data) < 0) {
+      parent = current;
+      current = current->left;
+    }
+    else if (strcmp(n, current->data) > 0 ) {
+      parent = current;
+      current = current->right;
+    }
+    else
+      break;
+  }
+
+  if (current == NULL) {
+    printf("%s is not in the directory. \n", n);
+    return temp;
+  }
+
+  if (current->left == NULL) {
+    if (parent == NULL) {
+      temp = current->right;
+      free(current);
     }
     else {
-      if (temp->left == NULL)
-	temp = temp->left;
-      else if (temp->right == NULL)
-	temp = temp->right;
-      free(temp);
+      if (strcmp(n, parent->data) < 0) {
+	parent->left = current->right;
+	free(current);
+      }
+      else {
+	parent->right = current->right;
+	free(current);
+      }
     }
-    
-    bTreeDelete(temp->left, n);
-    bTreeDelete(temp->right, n);
   }
+
+  else {
+    node *parentOfRightMost = current;
+    node *rightMost = current->left;
+
+    while (rightMost->right != NULL) {
+      parentOfRightMost = rightMost;
+      rightMost = rightMost->right;
+    }
+
+    strcpy(current->data, rightMost->data);
+    if (parentOfRightMost->right == rightMost)
+      parentOfRightMost->right = rightMost->left;
+    else
+      parentOfRightMost->left = rightMost->left;
+    free(rightMost);
+  }
+  printf("Removing %s from the directory \n", n);
   return temp;
+
 }
 
 void bTreePrint(struct node *temp) {
-  if (root == NULL) {
-    printf("There are no names\n");
+  if (temp == NULL) {
     return;
   }
 
@@ -64,14 +98,14 @@ void bTreePrint(struct node *temp) {
 }
 
 void freeTree(struct node *temp) {
-  if (root == NULL) {
+  if (temp == NULL) {
     return;
   }
   if (temp->right != NULL) {
-    freeTree(root->left);
+    freeTree(temp->left);
   }
   if (temp->left != NULL) {
-    freeTree(root->right);
+    freeTree(temp->right);
   }
 	
   free(temp);
